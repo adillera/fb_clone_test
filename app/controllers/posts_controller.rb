@@ -8,7 +8,7 @@ class PostsController < ApplicationController
     if params[:main_post_id]
       main_post = Post.find(params[:main_post_id])
 
-      post = main_post.comments.create(post: params[:post][:post], user: current_user)
+      post = main_post.comments.create(post: params[:post][:post], user: current_user, picture: params[:post][:picture])
     else
       post = current_user.posts.create(post: params[:post][:post], picture: params[:post][:picture])
     end

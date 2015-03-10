@@ -35,12 +35,19 @@
       <% p.comments.order("created_at DESC").each do |c| %>
         <div><strong><%= c.user.email %></strong></div>
         <div><%= c.post %></div>
+        <% unless c.picture_file_name.nil? %>
+          <div><%= image_tag c.picture.url, width: "150px" %></div>
+        <% end %>
       <% end %>
     </div>
 
-    <%= form_for @post, url: posts_path(main_post_id: p.id) do |f| %>
+    <%= form_for @post, url: posts_path(main_post_id: p.id), html: { multipart: true } do |f| %>
       <div class="form-group">
         <%= f.text_area :post, class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.file_field :picture, class: "form-control" %>
       </div>
 
       <%= f.submit "Comment", class: "btn btn-default" %>

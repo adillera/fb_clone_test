@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150310091912) do
+ActiveRecord::Schema.define(version: 20150310103109) do
 
   create_table "posts", force: true do |t|
     t.integer  "user_id"
@@ -19,6 +19,10 @@ ActiveRecord::Schema.define(version: 20150310091912) do
     t.string   "post"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "picture_file_name"
+    t.string   "picture_content_type"
+    t.integer  "picture_file_size"
+    t.datetime "picture_updated_at"
   end
 
   add_index "posts", ["main_post_id"], name: "index_posts_on_main_post_id"

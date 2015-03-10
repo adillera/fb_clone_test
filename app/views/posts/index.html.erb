@@ -1,0 +1,42 @@
+<nav class="navbar navbar-inverse">
+  <p class="navbar-text">Signed in as: <%= current_user.email %></p>
+
+  <ul class="nav navbar-nav">
+    <li><%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
+  </ul>
+</nav>
+
+<div class="col-md-6" id="post-box-holder">
+  <div class="form-group">
+    <%= text_area_tag :post, nil, class: "form-control", id: "post-box" %>
+  </div>
+
+  <%= link_to "Post", "#", class: "btn btn-primary", id: "post-button" %>
+</div>
+
+<div id="posts-holder" class="col-md-6">
+  <% @posts.each do |p| %>
+  <div class="post">
+    <div>
+      <div><strong><%= p.user.email %></strong></div>
+      <div><%= p.post %></div>
+    </div>
+
+    <h5>Comments</h5>
+    <div class="comments-holder">
+      <% p.comments.order("created_at DESC").each do |c| %>
+        <div><strong><%= c.user.email %></strong></div>
+        <div><%= c.post %></div>
+      <% end %>
+    </div>
+
+    <div>
+      <div class="form-group">
+        <%= text_area_tag :post, nil, class: "form-control" %>
+      </div>
+
+      <%= link_to "Comment", "#", class: "btn btn-primary comment-button", "data-main-post-id" => p.id %>
+    </div>
+  </div>
+  <% end %>
+</div>

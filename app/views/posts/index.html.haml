@@ -1,0 +1,34 @@
+%nav.navbar.navbar-inverse
+  %p.navbar-text
+    Signed in as: #{current_user.email}
+  %ul.nav.navbar-nav
+    %li= link_to "Logout", destroy_user_session_path, method: :delete
+= form_for @post, html: { multipart: true, class: "col-md-6", id: "post-box-holder" } do |f|
+  .form-group
+    = f.text_area :post, class: "form-control", id: "post-box"
+  .form-group
+    = f.file_field :picture, class: "form-control"
+  = f.submit class: "btn btn-primary"
+#posts-holder.col-md-6
+  - @posts.each do |p|
+    .post
+      %div
+        %div
+          %strong= p.user.email
+        %div= p.post
+        - unless p.picture_file_name.nil?
+          %div= image_tag p.picture.url, width: "500px"
+      %h5 Comments
+      .comments-holder
+        - p.comments.order("created_at DESC").each do |c|
+          %div
+            %strong= c.user.email
+          %div= c.post
+          - unless c.picture_file_name.nil?
+            %div= image_tag c.picture.url, width: "150px"
+      = form_for @post, url: posts_path(main_post_id: p.id), html: { multipart: true } do |f|
+        .form-group
+          = f.text_area :post, class: "form-control"
+        .form-group
+          = f.file_field :picture, class: "form-control"
+        = f.submit "Comment", class: "btn btn-default"
